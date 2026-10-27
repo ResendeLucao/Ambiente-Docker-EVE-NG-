@@ -1,0 +1,23 @@
+# Configuração local (pode conter caminhos e portas do seu PC)
+.env
+
+# Disco da VM do EVE-NG (centenas de GB)
+data/
+
+# ISO e imagens de fabricantes: são grandes e têm licença própria.
+# Nunca publique imagens Cisco ou Fortinet no GitHub.
+iso/*
+!iso/.gitkeep
+images/**/*.qcow2
+images/**/*.bin
+images/**/*.img
+images/**/*.vmdk
+images/**/*.zip
+images/**/*.out
+
+# Backups de labs
+backups/
+
+# Arquivos de licença
+*.lic
+iourc

@@ -1,0 +1,62 @@
+# -----------------------------------------------------------------------------
+# EVE-NG rodando dentro de um container Docker
+#
+# Como funciona:
+#   O EVE-NG não é distribuído como imagem Docker. Ele é um "appliance" baseado
+#   em Ubuntu que precisa de KVM para rodar os nós (FortiGate, roteadores etc.).
+#   Por isso usamos o container qemux/qemu, que empacota o QEMU/KVM dentro do
+#   Docker: o container inicializa a ISO oficial do EVE-NG, instala em um disco
+#   virtual salvo em ./data e expõe a interface web do EVE-NG nas portas abaixo.
+#
+#   Kubuntu (host) -> Docker -> container qemux/qemu -> VM EVE-NG -> nós dos labs
+#
+# Todos os valores ajustáveis ficam no arquivo .env (copie de .env.example).
+# -----------------------------------------------------------------------------
+name: eve-ng
+
+services:
+  eve-ng:
+    image: ${QEMU_IMAGE:-qemux/qemu:latest}
+    container_name: eve-ng
+    hostname: eve-ng
+    environment:
+      # Recursos entregues para a VM do EVE-NG
+      RAM_SIZE: ${EVE_RAM:-16G}
+      CPU_CORES: ${EVE_CPUS:-8}
+      DISK_SIZE: ${EVE_DISK:-300G}
+      # Se a ISO não inicializar em UEFI (padrão), descomente a linha abaixo
+      # BOOT_MODE: legacy
+      # Mostra a linha de comando completa do QEMU nos logs (útil para depurar)
+      DEBUG: ${EVE_DEBUG:-N}
+    devices:
+      - /dev/kvm          # aceleração por hardware (obrigatório)
+      - /dev/net/tun      # rede da VM
+    cap_add:
+      - NET_ADMIN
+    ports:
+      # Console gráfico da VM (instalação e tela do servidor), no navegador
+      - "${BIND_ADDR:-127.0.0.1}:${PORT_VIEWER:-8006}:8006"
+      # Interface web do EVE-NG
+      - "${BIND_ADDR:-127.0.0.1}:${PORT_HTTP:-8080}:80"
+      - "${BIND_ADDR:-127.0.0.1}:${PORT_HTTPS:-8443}:443"
+      # SSH/SFTP para o EVE-NG (upload de imagens, comandos de manutenção)
+      - "${BIND_ADDR:-127.0.0.1}:${PORT_SSH:-2222}:22"
+    volumes:
+      # Disco da VM e configurações (fica no seu HD de 1 TB)
+      - ${EVE_DATA_DIR:-./data}:/storage
+      # A ISO de instalação é montada só na fase de instalação, pelo arquivo
+      # docker-compose.install.yml (comando: make install).
+    networks:
+      - eve-net
+    restart: unless-stopped
+    # Dá tempo para a VM desligar com segurança e não corromper o disco
+    stop_grace_period: 2m
+
+networks:
+  eve-net:
+    # Sub-rede própria para não colidir com 172.17.0.0/16 (o EVE-NG usa essa
+    # faixa internamente) nem com 172.29.129.0/24 e 172.29.130.0/24.
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${DOCKER_SUBNET:-10.250.0.0/24}

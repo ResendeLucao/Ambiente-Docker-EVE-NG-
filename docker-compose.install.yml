@@ -1,0 +1,7 @@
+# Usado SOMENTE na instalação (make install). Acrescenta a ISO oficial do
+# EVE-NG como CD de boot. Depois que o EVE-NG estiver instalado no disco,
+# use apenas "make up", que sobe sem a ISO.
+services:
+  eve-ng:
+    volumes:
+      - ${EVE_ISO:-./iso/eve-ng.iso}:/boot.iso:ro
