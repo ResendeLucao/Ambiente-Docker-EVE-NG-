@@ -44,7 +44,14 @@ Ao adicionar o nó **Fortinet FortiGate**:
 1. Ligue a `port1` do FortiGate em uma rede **Cloud NAT** ([4.3](04-primeiro-acesso.md#43-dar-acesso-à-internet-para-os-nós)).
 2. No console: login `admin`, senha em branco, defina uma nova senha.
 3. A `port1` pega IP por DHCP. Veja com `get system interface physical`.
-4. Acesse a GUI do FortiGate pelo navegador do EVE-NG ou por um nó Linux com navegador, faça login e escolha a opção de **avaliação com conta FortiCloud**, usando a conta do passo 1.
+4. Libere HTTPS na `port1` (`config system interface` → `edit port1` → `set allowaccess ping https ssh` → `end`) e abra a GUI do FortiGate no navegador do Kubuntu por um túnel SSH através do EVE-NG:
+
+   ```bash
+   ssh -p 2222 -N -L 9443:<IP-da-port1>:443 root@127.0.0.1
+   # abra https://127.0.0.1:9443
+   ```
+
+   Faça login e escolha a opção de **avaliação com conta FortiCloud**, usando a conta do passo 1. (Também dá para usar um nó Linux com navegador dentro do lab.)
 
 **Limites da licença de avaliação** (segundo a Fortinet):
 

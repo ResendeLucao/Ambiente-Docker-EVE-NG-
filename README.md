@@ -99,6 +99,7 @@ Rode `make help` para ver todos os atalhos.
 │   ├── status.sh
 │   ├── upload-qemu-image.sh    # FortiGate, Linux, vIOS...
 │   ├── upload-iol-image.sh     # Cisco IOL
+│   ├── create-linux-node.sh    # template Linux a partir de uma ISO
 │   └── backup-labs.sh
 ├── docs/                       # passo a passo
 ├── labs/                       # roteiros e configs de referência
