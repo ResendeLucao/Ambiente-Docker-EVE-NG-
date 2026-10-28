@@ -104,4 +104,4 @@ Se o último comando der `0`, a virtualização aninhada não chegou até a VM. 
 
 ---
 
-Anterior: [2. Preparar o Kubuntu](02-preparar-host.md) · Próximo: [4. Primeiro acesso](04-primeiro-acesso.md)
+Anterior: [2. Preparar o Ubuntu](02-preparar-host.md) · Próximo: [4. Primeiro acesso](04-primeiro-acesso.md)

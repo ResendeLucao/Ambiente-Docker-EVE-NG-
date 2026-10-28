@@ -69,4 +69,4 @@ Detalhes sobre as imagens estão em [05-imagens.md](05-imagens.md).
 
 ---
 
-Próximo: [2. Preparar o Kubuntu](02-preparar-host.md)
+Próximo: [2. Preparar o Ubuntu](02-preparar-host.md)

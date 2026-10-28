@@ -1,6 +1,6 @@
 # Ambiente Docker + EVE-NG para labs de CCNA e NSE 4
 
-Laboratório pessoal para estudar para o **Cisco CCNA (200-301)** e o **Fortinet NSE 4 (FortiOS Administrator)**, rodando o **EVE-NG dentro do Docker** em um PC com **Kubuntu** e 1 TB de disco.
+Laboratório pessoal para estudar para o **Cisco CCNA (200-301)** e o **Fortinet NSE 4 (FortiOS Administrator)**, rodando o **EVE-NG dentro do Docker** em um PC com **Ubuntu** (Kubuntu, Desktop ou Server 26.04) e 1 TB de disco.
 
 Tudo o que é preciso para montar o ambiente está aqui: scripts, `docker-compose`, passo a passo e roteiros de labs com configurações de referência.
 
@@ -66,7 +66,7 @@ Rode `make help` para ver todos os atalhos.
 | # | Guia | O que você faz |
 |---|------|----------------|
 | 1 | [Requisitos](docs/01-requisitos.md) | Confere se o PC aguenta e escolhe a edição do EVE-NG |
-| 2 | [Preparar o Kubuntu](docs/02-preparar-host.md) | BIOS, Docker Engine e virtualização aninhada |
+| 2 | [Preparar o Ubuntu](docs/02-preparar-host.md) | BIOS, Docker Engine, virtualização aninhada e acesso remoto (Ubuntu Server) |
 | 3 | [Instalar o EVE-NG no Docker](docs/03-instalar-eve-ng.md) | Baixa a ISO, sobe o container e roda o instalador |
 | 4 | [Primeiro acesso](docs/04-primeiro-acesso.md) | Web, console HTML5, primeiro lab e acesso à internet |
 | 5 | [Imagens Cisco e Fortinet](docs/05-imagens.md) | Onde conseguir imagens de forma legal e como enviar |
