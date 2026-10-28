@@ -42,14 +42,14 @@ O disco ainda não tem o EVE-NG instalado (ou `EVE_DATA_DIR` aponta para outra p
 Quase sempre é a virtualização aninhada. Confira em duas camadas:
 
 ```bash
-# No Kubuntu
+# No servidor Ubuntu
 cat /sys/module/kvm_intel/parameters/nested   # ou kvm_amd -> precisa ser Y ou 1
 
 # Dentro do EVE-NG (make shell-eve)
 egrep -c '(vmx|svm)' /proc/cpuinfo            # precisa ser > 0
 ```
 
-Se o primeiro estiver errado, rode `make nested` (com o container desligado) e reinicie o PC.
+Se o primeiro estiver errado, rode `make nested` (com o container desligado) e reinicie o servidor (`sudo reboot`).
 
 Se o primeiro estiver certo e o segundo der `0`, force a CPU do host na VM: acrescente ao `environment` do `docker-compose.yml`
 
@@ -67,11 +67,13 @@ make fixperms
 
 Confira se a pasta tem o prefixo correto (por exemplo `fortinet-FGT-`) e se o disco se chama `virtioa.qcow2`. Veja [5.3](05-imagens.md#53-regras-de-nomes-no-eve-ng).
 
-## A web do EVE-NG não abre em `https://127.0.0.1:8443`
+## A web do EVE-NG não abre em `https://<IP-do-servidor>:8443`
 
-- A VM ainda está iniciando. Acompanhe em <http://127.0.0.1:8006>.
+- A VM ainda está iniciando. Acompanhe em `http://<IP-do-servidor>:8006`.
+- Confira se está usando o IP do **servidor** (o `make status` mostra), e não o IP interno que aparece na tela do EVE-NG.
+- Teste no próprio servidor: `curl -kI https://127.0.0.1:8443`. Se responder no servidor e não na estação, verifique se `BIND_ADDR=0.0.0.0` no `.env` e se os dois computadores estão na mesma rede.
 - Confira o IP na tela de login do console. Se aparecer sem IP, rode `dhclient` dentro do EVE-NG ou refaça a configuração de rede com o assistente (`rm -f /opt/ovf/.configured && reboot`).
-- Outra coisa no seu PC já usa a porta. Troque `PORT_HTTPS` no `.env`.
+- Outro serviço do servidor já usa a porta (veja com `sudo ss -tlnp | grep 8443`). Troque `PORT_HTTPS` no `.env`.
 
 ## SSH pede confirmação de chave ou dá "REMOTE HOST IDENTIFICATION HAS CHANGED"
 
@@ -86,7 +88,7 @@ ssh-keygen -R "[127.0.0.1]:2222"
 - Dê mais RAM e CPU (`EVE_RAM` / `EVE_CPUS`) e rode `docker compose up -d`.
 - Ligue só os nós que estiver usando.
 - Prefira IOL a vIOS: usa bem menos recursos.
-- Feche o navegador e outros programas pesados no Kubuntu.
+- Evite rodar outros serviços pesados no servidor ao mesmo tempo.
 
 ## O disco encheu
 

@@ -9,8 +9,8 @@
 #   ./scripts/create-linux-node.sh <pasta-no-eve> <arquivo.iso> [tamanho-do-disco]
 #
 # Exemplos:
-#   ./scripts/create-linux-node.sh linux-ubuntu-24.04-server ~/Downloads/ubuntu-24.04-live-server-amd64.iso 20G
-#   ./scripts/create-linux-node.sh linux-ubuntu-24.04-desktop ~/Downloads/ubuntu-24.04-desktop-amd64.iso 30G
+#   ./scripts/create-linux-node.sh linux-ubuntu-26.04-server ~/Downloads/ubuntu-26.04-live-server-amd64.iso 20G
+#   ./scripts/create-linux-node.sh linux-ubuntu-26.04-desktop ~/Downloads/ubuntu-26.04-desktop-amd64.iso 30G
 set -euo pipefail
 source "$(dirname "$0")/lib.sh"
 

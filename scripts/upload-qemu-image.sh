@@ -11,7 +11,7 @@
 #   FortiGate com disco de log (opcional):
 #     ./scripts/upload-qemu-image.sh fortinet-FGT-v7.6.4 images/qemu/fortios.qcow2 images/qemu/log.qcow2
 #   Linux:
-#     ./scripts/upload-qemu-image.sh linux-ubuntu-24.04-server images/qemu/ubuntu.qcow2
+#     ./scripts/upload-qemu-image.sh linux-ubuntu-26.04-server images/qemu/ubuntu.qcow2
 #
 # O primeiro disco vira virtioa.qcow2 e o segundo virtiob.qcow2. Se o fabricante
 # exigir outro nome (hda.qcow2, sataa.qcow2...), use a variável DISK_PREFIX:

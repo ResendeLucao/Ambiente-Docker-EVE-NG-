@@ -8,7 +8,10 @@ cd "$REPO_DIR"
 
 mode="${1:-run}"
 
-[[ -f .env ]] || { cp .env.example .env; warn ".env não existia; criei a partir do .env.example. Revise RAM/CPU."; }
+if [[ ! -f .env ]]; then
+  cp .env.example .env
+  warn ".env não existia; criei a partir do .env.example. Revise EVE_RAM e EVE_CPUS (make check sugere valores)."
+fi
 [[ -e /dev/kvm ]] || die "/dev/kvm não existe. Rode: make check"
 
 data="${EVE_DATA_DIR:-./data}"
@@ -28,9 +31,13 @@ else
 fi
 
 "${compose[@]}" up -d
+
+host="$(access_host)"
 echo
 ok "Container iniciado."
-info "Console da VM (tela do servidor): http://127.0.0.1:${PORT_VIEWER}"
-info "Web do EVE-NG (após instalar):    https://127.0.0.1:${PORT_HTTPS}   (ou http://127.0.0.1:${PORT_HTTP})"
-info "SSH/SFTP do EVE-NG:               ssh -p ${PORT_SSH} root@127.0.0.1"
-info "Logs:                             make logs"
+info "Abra no navegador de outro computador da sua rede:"
+info "  Console da VM (instalação):  http://${host}:${PORT_VIEWER}"
+info "  Web do EVE-NG (após instalar): https://${host}:${PORT_HTTPS}"
+info "Neste servidor:"
+info "  SSH no EVE-NG:  make shell-eve"
+info "  Logs:           make logs"

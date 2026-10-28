@@ -42,18 +42,19 @@ Os labs usam até três Linux:
 
 | Nó | Função | Sugestão |
 |----|--------|----------|
-| `LNX-PC` | Cliente, com navegador para a GUI do FortiGate | Ubuntu Desktop 24.04 |
-| `LNX-WEB` | Servidor web na DMZ | Ubuntu Server 24.04 com nginx |
-| `LNX-RTR` / `LNX-VPN` | Roteador de WAN2 / par de VPN (strongSwan) | Ubuntu Server 24.04 |
+| `LNX-PC` | Cliente, com navegador para a GUI do FortiGate | Ubuntu Desktop 26.04 |
+| `LNX-WEB` | Servidor web na DMZ | Ubuntu Server 26.04 com nginx |
+| `LNX-RTR` / `LNX-VPN` | Roteador de WAN2 / par de VPN (strongSwan) | Ubuntu Server 26.04 |
 
 **Opção A: nós Docker do EVE-NG.** Se a sua edição do EVE-NG trouxer as imagens Docker prontas (como um desktop com navegador), use-as para o `LNX-PC`. É o caminho mais leve.
 
 **Opção B: instalar a partir da ISO oficial do Ubuntu** (funciona em qualquer edição):
 
 ```bash
-# 1. no Kubuntu: baixe as ISOs em https://ubuntu.com/download e crie os templates
-./scripts/create-linux-node.sh linux-ubuntu-24.04-desktop ~/Downloads/ubuntu-24.04*-desktop-amd64.iso 30G
-./scripts/create-linux-node.sh linux-ubuntu-24.04-server  ~/Downloads/ubuntu-24.04*-live-server-amd64.iso 20G
+# 1. no servidor: baixe as ISOs (copie os links em https://ubuntu.com/download) e crie os templates
+#    wget -P ~/Downloads "<link-da-ISO-desktop>" "<link-da-ISO-server>"
+./scripts/create-linux-node.sh linux-ubuntu-26.04-desktop ~/Downloads/ubuntu-26.04*-desktop-amd64.iso 30G
+./scripts/create-linux-node.sh linux-ubuntu-26.04-server  ~/Downloads/ubuntu-26.04*-live-server-amd64.iso 20G
 ```
 
 2. No EVE-NG, crie um lab temporário, adicione um nó **Linux** com o template, ligue em **Cloud NAT** e instale pelo console (VNC).
@@ -62,21 +63,21 @@ Os labs usam até três Linux:
 
 ```bash
 make shell-eve
-rm /opt/unetlab/addons/qemu/linux-ubuntu-24.04-server/cdrom.iso
+rm /opt/unetlab/addons/qemu/linux-ubuntu-26.04-server/cdrom.iso
 ```
 
 A partir daí, cada novo nó criado com esse template já nasce com o Ubuntu instalado.
 
 ## Dica de economia de RAM
 
-Com pouca memória, use o Ubuntu Server (sem interface gráfica) como `LNX-PC` e abra a GUI do FortiGate **no navegador do seu Kubuntu**, por um túnel SSH através do EVE-NG. A `port1` fica na rede Cloud NAT, que o EVE-NG alcança diretamente:
+Com pouca memória, use o Ubuntu Server (sem interface gráfica) como `LNX-PC` e abra a GUI do FortiGate **no navegador da estação**, por um túnel SSH através do EVE-NG. A `port1` fica na rede Cloud NAT, que o EVE-NG alcança diretamente:
 
 ```bash
 # no FortiGate (só em laboratório): libere HTTPS na port1
 #   config system interface / edit port1 / set allowaccess ping https ssh / end
-# no Kubuntu:
-ssh -p 2222 -N -L 9443:<IP-da-port1>:443 root@127.0.0.1
-# depois abra https://127.0.0.1:9443
+# no PowerShell da estação (deixe a janela aberta):
+ssh -p 2222 -N -L 9443:<IP-da-port1>:443 root@<IP-do-servidor>
+# depois abra https://127.0.0.1:9443 no navegador da estação
 ```
 
 Também vale fazer boa parte dos labs pela **CLI** do FortiGate, que é o que a prova mais cobra em troubleshooting.

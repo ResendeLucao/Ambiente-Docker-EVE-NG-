@@ -13,15 +13,23 @@ A Fortinet oferece uma **licença de avaliação permanente** da FortiGate VM, g
 3. Selecione **Product: FortiGate** e **Platform: KVM**.
 4. Baixe a versão **7.6.x** (é a versão cobrada no NSE 4 atual). O arquivo é um `.zip` com o disco `fortios.qcow2`.
 
+O site da Fortinet exige login, então baixe **na estação** e envie o `.zip` para o servidor. No PowerShell do Windows:
+
+```powershell
+scp $HOME\Downloads\FGT_VM64_KVM-v7.6*.zip seu-usuario@<IP-do-servidor>:~/Ambiente-Docker-EVE-NG-/images/qemu/
+```
+
+Depois, **no servidor**:
+
 ```bash
-mkdir -p images/qemu
-unzip ~/Downloads/FGT_VM64_KVM-v7.6*.zip -d images/qemu/
+cd ~/Ambiente-Docker-EVE-NG-
+unzip images/qemu/FGT_VM64_KVM-v7.6*.zip -d images/qemu/
 ls images/qemu/      # fortios.qcow2
 ```
 
 ### Enviar para o EVE-NG
 
-Com o EVE-NG ligado (`make up`):
+Com o EVE-NG ligado (`make up`), no servidor:
 
 ```bash
 ./scripts/upload-qemu-image.sh fortinet-FGT-v7.6.4 images/qemu/fortios.qcow2
@@ -44,12 +52,13 @@ Ao adicionar o nó **Fortinet FortiGate**:
 1. Ligue a `port1` do FortiGate em uma rede **Cloud NAT** ([4.3](04-primeiro-acesso.md#43-dar-acesso-à-internet-para-os-nós)).
 2. No console: login `admin`, senha em branco, defina uma nova senha.
 3. A `port1` pega IP por DHCP. Veja com `get system interface physical`.
-4. Libere HTTPS na `port1` (`config system interface` → `edit port1` → `set allowaccess ping https ssh` → `end`) e abra a GUI do FortiGate no navegador do Kubuntu por um túnel SSH através do EVE-NG:
+4. Libere HTTPS na `port1` (`config system interface` → `edit port1` → `set allowaccess ping https ssh` → `end`) e abra a GUI do FortiGate no navegador da estação por um túnel SSH através do EVE-NG. No PowerShell da estação (deixe a janela aberta):
 
-   ```bash
-   ssh -p 2222 -N -L 9443:<IP-da-port1>:443 root@127.0.0.1
-   # abra https://127.0.0.1:9443
+   ```powershell
+   ssh -p 2222 -N -L 9443:<IP-da-port1>:443 root@<IP-do-servidor>
    ```
+
+   A senha é a de root do EVE-NG. Depois abra `https://127.0.0.1:9443` no navegador da estação.
 
    Faça login e escolha a opção de **avaliação com conta FortiCloud**, usando a conta do passo 1. (Também dá para usar um nó Linux com navegador dentro do lab.)
 
@@ -81,9 +90,11 @@ Aqui é preciso atenção: as imagens Cisco que vêm no **CML (Cisco Modeling La
 - Use o **EVE-NG** para o FortiGate e para labs multivendor (FortiGate + roteador + Linux).
 - Os [roteiros de CCNA](../labs/ccna/README.md) deste repositório funcionam em qualquer uma dessas ferramentas: a topologia e os comandos são os mesmos.
 
-> O CML é distribuído como VM e também pode rodar no seu Kubuntu, ao lado do EVE-NG (só não ligue os dois ao mesmo tempo se a RAM for curta).
+> O CML é distribuído como VM. Você pode rodá-lo na estação (por exemplo no VMware Workstation, no Windows) ou no servidor, mas não ligue o CML e o EVE-NG ao mesmo tempo se a RAM for curta.
 
 ### Se você tiver imagens IOL licenciadas
+
+Envie os arquivos da estação para `images/iol/` no servidor com `scp` (como no FortiGate) e depois, no servidor:
 
 ```bash
 ./scripts/upload-iol-image.sh images/iol/<sua-imagem-L3>.bin images/iol/<sua-imagem-L2>.bin

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Ativa a virtualização aninhada (nested KVM) no Kubuntu.
+# Ativa a virtualização aninhada (nested KVM) no Ubuntu (host).
 #
 # Por que precisa: o EVE-NG já é uma VM (rodando no container). Os nós dos labs
 # - FortiGate, Linux, vIOS etc. - são VMs DENTRO dessa VM. Sem nested, eles não
@@ -34,5 +34,5 @@ info "Recarregando o módulo $mod ..."
 if sudo modprobe -r "$mod" && sudo modprobe "$mod"; then
   ok "Nested ativo: $(cat "$param")"
 else
-  warn "Não deu para recarregar o módulo agora (alguma VM aberta?). Reinicie o PC para aplicar."
+  warn "Não deu para recarregar o módulo agora (alguma VM aberta?). Reinicie o servidor (sudo reboot) para aplicar."
 fi

@@ -2,14 +2,14 @@
 
 ## 4.1 Entrar na interface web
 
-Abra **<https://127.0.0.1:8443>** (ou <http://127.0.0.1:8080>).
+**Na estação**, abra **`https://<IP-do-servidor>:8443`** (ou `http://<IP-do-servidor>:8080`). O `make status` no servidor mostra o endereço certo.
 
 1. O navegador avisa que o certificado não é confiável. É esperado (certificado autoassinado). Clique em **Avançado → Continuar**.
 2. Login: **`admin`** / **`eve`**.
 3. Em **HTML5 console** (opção na tela de login), deixe marcado. Assim os consoles dos equipamentos abrem no próprio navegador, sem instalar nada.
 4. Troque a senha do `admin` em **Management → User management**.
 
-> Para acessar de outro computador da sua rede (por exemplo um notebook), mude `BIND_ADDR=0.0.0.0` no `.env`, rode `docker compose up -d` e use `https://<IP-do-seu-PC>:8443`. Faça isso só depois de trocar a senha padrão.
+> Qualquer computador da sua rede chega nessa tela, então troque a senha padrão antes de qualquer outra coisa.
 
 ## 4.2 Criar o primeiro lab de teste
 
@@ -41,10 +41,10 @@ O FortiGate precisa de internet para ativar a licença de avaliação, e é úti
 
 1. Botão direito → **Network** → tipo **Cloud NAT** (em algumas versões aparece como **NAT**).
 2. Ligue a interface do nó a essa rede.
-3. O nó recebe IP por DHCP na faixa `172.29.129.0/24` e sai para a internet pelo EVE-NG → container → seu PC.
+3. O nó recebe IP por DHCP na faixa `172.29.129.0/24` e sai para a internet pelo EVE-NG → container → servidor.
 
 ```
-PC Kubuntu ── Docker (NAT) ── VM EVE-NG ── Cloud NAT 172.29.129.0/24 ── FortiGate port1
+Servidor Ubuntu ── Docker (NAT) ── VM EVE-NG ── Cloud NAT 172.29.129.0/24 ── FortiGate port1
 ```
 
 > Não use na sua rede de casa as faixas `172.17.0.0/16`, `172.29.129.0/24` e `172.29.130.0/24`, que o EVE-NG usa internamente. A rede Docker deste projeto usa `10.250.0.0/24` justamente para não colidir.

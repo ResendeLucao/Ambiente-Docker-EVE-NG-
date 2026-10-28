@@ -10,10 +10,10 @@ help: ## Mostra esta ajuda
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | \
 	  awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-12s\033[0m %s\n", $$1, $$2}'
 
-check: ## Verifica se o PC atende aos requisitos
+check: ## Verifica se o servidor atende aos requisitos
 	@./scripts/00-check-host.sh
 
-docker: ## Instala o Docker Engine no Kubuntu
+docker: ## Instala o Docker Engine e as ferramentas no Ubuntu
 	@./scripts/01-install-docker.sh
 
 nested: ## Ativa a virtualização aninhada (KVM nested)

@@ -12,7 +12,7 @@
 | `make shell-eve` | Abre SSH como root no EVE-NG |
 | `make backup` | Exporta os labs para `./backups` |
 
-O container está com `restart: unless-stopped`: se você não der `make down`, ele volta sozinho quando o PC reinicia. Se preferir ligar só quando for estudar, sempre desligue com `make down`.
+O container está com `restart: unless-stopped`: se você não der `make down`, ele volta sozinho quando o servidor reinicia. Se preferir ligar só quando for estudar, sempre desligue com `make down`.
 
 ## 6.2 Backup dos labs
 
@@ -21,6 +21,12 @@ make backup
 ```
 
 Gera `backups/labs-AAAA-MM-DD_HHMM.tar.gz` com tudo de `/opt/unetlab/labs` (topologias `.unl` e configurações salvas). São arquivos pequenos.
+
+Para guardar uma cópia na estação, no PowerShell:
+
+```powershell
+scp seu-usuario@<IP-do-servidor>:~/Ambiente-Docker-EVE-NG-/backups/*.tar.gz $HOME\Documents\
+```
 
 Para guardar seus labs no GitHub, extraia os `.unl` para a pasta `labs/` deste repositório e faça commit. Eles não contêm as imagens dos fabricantes.
 
@@ -41,7 +47,7 @@ sudo tar -cf /mnt/backup/eve-ng-data-$(date +%F).tar data/
 make up
 ```
 
-Para restaurar, desligue, substitua a pasta `data/` pela do backup e ligue de novo. Também serve para mover o laboratório para outro PC: copie o repositório com a pasta `data/` e rode `make up`.
+Para restaurar, desligue, substitua a pasta `data/` pela do backup e ligue de novo. Também serve para mover o laboratório para outro servidor: copie o repositório com a pasta `data/` e rode `make up`.
 
 ## 6.4 Atualizar
 
@@ -52,7 +58,7 @@ make shell-eve
 apt update && apt upgrade -y
 ```
 
-**Container qemux/qemu** (no Kubuntu):
+**Container qemux/qemu** (no servidor):
 
 ```bash
 make down

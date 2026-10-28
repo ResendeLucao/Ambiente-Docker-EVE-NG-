@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Exporta todos os labs (.unl) e as configurações salvas do EVE-NG para
-# ./backups/labs-AAAA-MM-DD_HHMM.tar.gz no seu PC.
+# ./backups/labs-AAAA-MM-DD_HHMM.tar.gz no servidor.
 #
 # Os arquivos .unl são pequenos e podem ir para o GitHub (pasta labs/),
 # desde que não contenham imagens de fabricantes.

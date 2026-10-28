@@ -1,17 +1,20 @@
 # 1. Requisitos
 
-## 1.1 Hardware do PC
+## 1.1 Hardware do servidor
 
 | Item | Mínimo | Recomendado para CCNA + NSE 4 |
 |------|--------|-------------------------------|
 | CPU | Intel ou AMD x86_64 com VT-x/AMD-V, 4 núcleos | 6 a 8 núcleos (12 a 16 threads) |
 | RAM | 16 GB | 32 GB |
 | Disco | 120 GB livres | SSD com 300 GB+ (você tem 1 TB, sobra) |
-| Rede | Placa cabeada ou Wi-Fi | Qualquer uma (o EVE-NG sai pela rede do Docker) |
+| Sistema | Ubuntu 22.04 ou 24.04 | **Ubuntu Server 26.04 LTS** (sem interface gráfica) |
+| Rede | Placa cabeada ou Wi-Fi | Cabo, na mesma rede da estação |
 
 > Processadores Apple Silicon (ARM) não funcionam. O EVE-NG só roda em x86_64.
 
-Rode o diagnóstico, que mostra exatamente o que o seu PC tem e sugere quanto de RAM e CPU entregar ao EVE-NG:
+Você também precisa de uma **estação**: qualquer computador da mesma rede com navegador (o Windows 10 serve). É nela que você abre o EVE-NG.
+
+Rode o diagnóstico no servidor, que mostra exatamente o que ele tem e sugere quanto de RAM e CPU entregar ao EVE-NG:
 
 ```bash
 make check
@@ -35,7 +38,7 @@ Exemplos:
 - Lab de CCNA com 4 switches IOL, 2 roteadores IOL e 4 VPCS: **~6 a 8 GB**.
 - Lab de NSE 4 com 2 FortiGates, 1 roteador e 2 Linux: **~8 GB**.
 
-Com 32 GB no PC, configure `EVE_RAM=24G` e você roda qualquer lab das duas trilhas com folga. Com 16 GB, use `EVE_RAM=10G` e mantenha um lab ligado por vez.
+Como o Ubuntu Server sem interface gráfica usa pouca memória, quase toda a RAM vai para o EVE-NG. Com 32 GB no servidor, configure `EVE_RAM=29G` e você roda qualquer lab das duas trilhas com folga. Com 16 GB, use `EVE_RAM=14G` e mantenha um lab ligado por vez.
 
 ## 1.2 Qual edição do EVE-NG baixar
 
