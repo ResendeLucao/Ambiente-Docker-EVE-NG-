@@ -27,6 +27,12 @@ if [[ "$(systemctl get-default 2>/dev/null)" != "graphical.target" ]]; then
   ok "Servidor sem interface gráfica: acesse pelo navegador de outro computador"
 fi
 
+if [[ -w "$REPO_DIR" ]]; then
+  ok "Pasta do projeto com permissão de escrita"
+else
+  fail "Sem permissão de escrita em $REPO_DIR (dona: $(stat -c %U "$REPO_DIR")). Corrija com: sudo chown -R $USER:$USER $REPO_DIR"
+fi
+
 echo
 echo "== Ferramentas =="
 for cmd in git make ssh scp unzip wget; do

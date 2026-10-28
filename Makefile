@@ -20,7 +20,9 @@ nested: ## Ativa a virtualização aninhada (KVM nested)
 	@./scripts/02-enable-nested-virt.sh
 
 env: ## Cria o .env a partir do .env.example
-	@test -f .env && echo ".env já existe, nada a fazer." || (cp .env.example .env && echo ".env criado. Revise os valores.")
+	@if [ -f .env ]; then echo ".env já existe, nada a fazer."; \
+	elif [ ! -w . ]; then echo "[ERRO] Sem permissão de escrita nesta pasta (dona: $$(stat -c %U .)). Corrija com: sudo chown -R $$USER:$$USER $$(pwd)"; exit 1; \
+	else cp .env.example .env && echo ".env criado. Revise os valores."; fi
 
 install: ## Primeira vez: sobe o EVE-NG inicializando pela ISO
 	@./scripts/03-start.sh install
